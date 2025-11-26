@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Your Order</h2>
+
+{% if cart %}
+<div class="row">
+  {% for item_id, item in cart.items %}
+  <div class="col-md-6 mb-4">
+    <div class="card p-3 shadow-sm" style="background-color: #fdfaf7;">
+      <div class="d-flex">
+        <img src="{{ item.image_url }}" alt="{{ item.name }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin-right: 16px;">
+        <div class="flex-grow-1">
+          <h5 class="mb-1">{{ item.name }}</h5>
+          <p class="mb-1 text-muted">${{ item.price }} x {{ item.quantity }}</p>
+
+          
+          <form action="{% url 'update_cart_quantity' item_id %}" method="post" class="d-flex align-items-center mb-2">
+            {% csrf_token %}
+            <input type="number" name="quantity" value="{{ item.quantity }}" min="0" class="form-control form-control-sm me-2" style="width: 70px;">
+            <button class="btn btn-sm btn-outline-secondary">Update</button>
+          </form>
+
+          
+          <a href="{% url 'remove_from_cart' item_id %}" class="btn btn-sm btn-outline-danger">Remove</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="text-end">
+  <h4 class="text-dark">Total: ${{ total|floatformat:2 }}</h4>
+  <a class="btn btn-primary btn-lg mt-2" href="{% url 'place_order' %}">Place Order</a>
+</div>
+
+{% else %}
+<p class="lead">Your cart is empty. Go grab some ☕!</p>
+<a href="{% url 'menu' %}" class="btn btn-coffee">Back to Menu</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Thank You!</h2>
+<p>Your order has been placed.</p>
+<p><strong>Order ID:</strong> {{ order.id }}</p>
+<p><strong>Total:</strong> ${{ order.total_price|floatformat:2 }}</p>
+<a class="btn btn-primary" href="{% url 'menu' %}">Back to Menu</a>
+{% endblock %}

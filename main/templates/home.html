@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}Welcome to Soni's Coffee Shop{% endblock %}
+
+{% block content %}
+
+<div class="hero-image text-white text-center d-flex align-items-center justify-content-center flex-column"
+     style="background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center; height: 85vh; text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
+  <h1 class="display-3 fw-bold">Brewed with Passion</h1>
+  <p class="lead">Experience warmth, flavor, and community in every cup.</p>
+  <a href="{% url 'menu' %}" class="btn btn-light btn-lg mt-3">Explore Our Menu</a>
+</div>
+
+
+<div class="container py-5 fade-in">
+    <h2 class="text-center mb-4">🌟 Today's Specials</h2>
+    <div class="row justify-content-center">
+      {% for product in daily_specials %}
+      <div class="col-md-5 mb-4">
+        <div class="card h-100 shadow-sm">
+          <img src="{{ product.image_url }}" class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: cover;">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+            <p class="fw-bold">${{ product.price }}</p>
+            <form method="post" action="{% url 'add_to_cart' product.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="quantity" value="1">
+              <button class="btn btn-coffee">Add to Cart</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+
+
+<div class="container mt-5 py-5">
+  <div class="row align-items-center fade-in">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1000&q=80"
+           alt="Pouring Coffee" class="img-fluid rounded shadow-sm">
+    </div>
+    <div class="col-md-6">
+      <h2 class="mb-3 text-muted">Crafted for Coffee Lovers</h2>
+      <p class="lead text-secondary">
+        At <strong>Soni's Coffee Shop</strong>, every cup is a story. We use hand-selected beans, roast with care,
+        and pour with love. Whether it’s your first sip of the day or a cozy moment with friends,
+        our coffee is here to comfort and energize.
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<div class="bg-light py-5">
+  <div class="container text-center">
+    <h2 class="mb-4">Why You'll Love Us</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <h4>☕ Premium Beans</h4>
+        <p>We source only the highest quality, ethically grown beans from around the world.</p>
+      </div>
+      <div class="col-md-4">
+        <h4>🌿 Cozy Ambience</h4>
+        <p>Warm wood, comfy seats, soft jazz — your second living room awaits.</p>
+      </div>
+      <div class="col-md-4">
+        <h4>❤️ Locally Loved</h4>
+        <p>Rooted in our community, we serve joy one cup at a time.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container my-5 fade-in">
+    <div class="row align-items-center g-4">
+      <div class="col-md-6">
+        <h3 class="mb-3">Step Into Our Cozy Space</h3>
+        <p class="text-muted">
+          Our café isn’t just about great coffee — it’s about creating a warm, welcoming atmosphere
+          where you can relax, work, or connect. Whether you’re here for a quiet moment or a lively chat,
+          our space is designed to feel like home.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <img src="https://images.unsplash.com/photo-1668884405041-aa8963908538?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+             alt="Cafe Interior" class="img-fluid rounded shadow-sm" style="height: 100%; object-fit: cover;">
+      </div>
+    </div>
+  </div>
+  
+
+{% endblock %}
